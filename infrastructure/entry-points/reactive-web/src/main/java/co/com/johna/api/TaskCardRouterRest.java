@@ -13,8 +13,10 @@ import static org.springframework.web.reactive.function.server.RouterFunctions.r
 public class TaskCardRouterRest {
     @Bean
     public RouterFunction<ServerResponse> routerFunction(TaskCardHandler handler) {
-        return route(GET("/api/usecase/path"), handler::listenGETUseCase)
-                .andRoute(POST("/api/usecase/otherpath"), handler::listenPOSTUseCase)
-                .and(route(GET("/api/otherusercase/path"), handler::listenGETOtherUseCase));
+        return route(GET("/kanban-api/usecase/view-all-cards"), handler::listenViewAllCardsUseCase)
+                .andRoute(GET("/kanban-api/usecase/view-single-card"), handler::listenViewSigleCardUseCase)
+                .andRoute(POST("/kanban-api/usecase/create-card"), handler::listenCreateCardUseCase)
+                .andRoute(POST("/kanban-api/usecase/update-card"), handler::listenUpdateCardUseCase)
+                .andRoute(POST("/kanban-api/usecase/delete-card"), handler::listenDeleteCardUseCase);
     }
 }

@@ -11,18 +11,25 @@ import reactor.core.publisher.Mono;
 public class TaskCardHandler {
 //private  final UseCase useCase;
 //private  final UseCase2 useCase2;
-    public Mono<ServerResponse> listenGETUseCase(ServerRequest serverRequest) {
-        // usecase.logic();
-        return ServerResponse.ok().bodyValue("Hola mundo");
+
+
+    public Mono<ServerResponse> listenViewAllCardsUseCase(ServerRequest serverRequest) {
+        return ServerResponse.ok().bodyValue("Should return list with all the cards");
     }
 
-    public Mono<ServerResponse> listenGETOtherUseCase(ServerRequest serverRequest) {
-        // useCase2.logic();
-        return ServerResponse.ok().bodyValue("");
+    public Mono<ServerResponse> listenViewSigleCardUseCase(ServerRequest serverRequest) {
+        return ServerResponse.ok().bodyValue("Should return a SINGLE card");
     }
 
-    public Mono<ServerResponse> listenPOSTUseCase(ServerRequest serverRequest) {
-        // usecase.logic();
-        return ServerResponse.ok().bodyValue("");
+    public Mono<ServerResponse> listenCreateCardUseCase(ServerRequest serverRequest) {
+        return ServerResponse.ok().bodyValue("Should create and return a confirmation of creation");
+    }
+
+    public Mono<ServerResponse> listenUpdateCardUseCase(ServerRequest serverRequest) {
+        return ServerResponse.ok().bodyValue("Should UPDATE and return a confirmation of it");
+    }
+
+    public Mono<ServerResponse> listenDeleteCardUseCase(ServerRequest serverRequest) {
+        return ServerResponse.ok().bodyValue("Should DELETE and return a confirmation of it");
     }
 }
