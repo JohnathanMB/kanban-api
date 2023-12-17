@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface TaskCardRepository {
 
-    List<TaskCard> finfAll();
+    List<TaskCard> findAll();
 
 }
