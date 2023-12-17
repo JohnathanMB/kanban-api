@@ -14,6 +14,6 @@ public class TaskCard {
     private int id;
     private String tittle;
     private String description;
-    private PriorityLevel priotyLevel;
+    private PriorityLevel priorityLevel;
     private StatusCard states;
 }

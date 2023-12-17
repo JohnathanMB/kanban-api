@@ -25,9 +25,8 @@ public class CardsUseCase {
     }
 
     public TaskCard crateTaskCard(String tittle,
-                                        String description,
-                                        int priority,
-                                        int state){
+                                  String description,
+                                  int priority){
 
         int idNewCard = taskCardList.size();
 
@@ -35,8 +34,8 @@ public class CardsUseCase {
                 .id(idNewCard)
                 .tittle(tittle)
                 .description(description)
-                .priotyLevel(identifyPriority(priority))
-                .states(identifyState(state))
+                .priorityLevel(identifyPriority(priority))
+                .states(StatusCard.TODO)
                 .build();
 
         taskCardList.add(taskCard);
@@ -45,32 +44,34 @@ public class CardsUseCase {
     }
 
     public TaskCard updateTaskCard(int idCard,
-                                         String tittle,
-                                         String description,
-                                         int priority,
-                                         int state){
+                                   String tittle,
+                                   String description,
+                                   int priority,
+                                   int state){
 
         TaskCard taskCard = taskCardList.get(idCard);
 
         String newTitle = identifyNewValue(tittle, taskCard.getTittle());
         String newDesctiption = identifyNewValue(description, taskCard.getDescription());
-        int newPriority = identifyNewValue(priority, taskCard.getPriotyLevel().getIntLevel());
+        int newPriority = identifyNewValue(priority, taskCard.getPriorityLevel().getIntLevel());
         int newstate = identifyNewValue(state, taskCard.getStates().getIdentifier());
 
         TaskCard taskCardUpdated = taskCard.toBuilder()
                 .tittle(newTitle)
                 .description(newDesctiption)
-                .priotyLevel(identifyPriority(newPriority))
+                .priorityLevel(identifyPriority(newPriority))
                 .states(identifyState(newstate))
                 .build();
 
-        return taskCardList.set(idCard, taskCardUpdated);
+        taskCardList.set(idCard, taskCardUpdated);
+        return taskCardList.get(idCard);
     }
 
     public TaskCard deleteTaskCard(int idCard){
 
         TaskCard taskCard = taskCardList.get(idCard);
-        return taskCardList.set(idCard, taskCard.toBuilder().states(StatusCard.ERASED).build());
+        taskCardList.set(idCard, taskCard.toBuilder().states(StatusCard.ERASED).build());
+        return taskCardList.get(idCard);
     }
 
     private String identifyNewValue(String paramValue, String cardValue) {
