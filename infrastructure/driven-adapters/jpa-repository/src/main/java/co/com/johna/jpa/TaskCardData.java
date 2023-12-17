@@ -2,9 +2,7 @@ package co.com.johna.jpa;
 
 import co.com.johna.model.taskcard.PriorityLevel;
 import co.com.johna.model.taskcard.StatusCard;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,7 +15,8 @@ import lombok.NoArgsConstructor;
 public class TaskCardData {
 
     @Id
-    private int id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
     private String tittle;
     private String description;
     private int priorityLevel;

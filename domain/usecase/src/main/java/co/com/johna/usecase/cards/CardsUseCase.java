@@ -3,6 +3,7 @@ package co.com.johna.usecase.cards;
 import co.com.johna.model.taskcard.PriorityLevel;
 import co.com.johna.model.taskcard.StatusCard;
 import co.com.johna.model.taskcard.TaskCard;
+import co.com.johna.model.taskcard.gateways.TaskCardRepository;
 import lombok.RequiredArgsConstructor;
 
 import java.util.ArrayList;
@@ -12,35 +13,29 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class CardsUseCase {
 
-    private final List<TaskCard> taskCardList = new ArrayList<>();
+    private final TaskCardRepository taskCardRepository;
 
     public List<TaskCard> getAllTaskCards(){
-        return taskCardList;
+        return taskCardRepository.findAll();
     }
 
     public TaskCard getSingleTaskCards(int idCard){
-        return taskCardList.stream()
-                .filter(card -> Objects.equals(card.getId(), idCard))
-                .findFirst().orElse(TaskCard.builder().build());
+        return taskCardRepository.findByID(idCard)
+                .orElse(TaskCard.builder().id(-1).build());
     }
 
     public TaskCard crateTaskCard(String tittle,
                                   String description,
                                   int priority){
 
-        int idNewCard = taskCardList.size();
-
         TaskCard taskCard = TaskCard.builder()
-                .id(idNewCard)
                 .tittle(tittle)
                 .description(description)
                 .priorityLevel(identifyPriority(priority))
                 .states(StatusCard.TODO)
                 .build();
 
-        taskCardList.add(taskCard);
-
-        return taskCardList.get(idNewCard);
+        return taskCardRepository.save(taskCard);
     }
 
     public TaskCard updateTaskCard(int idCard,
@@ -49,7 +44,9 @@ public class CardsUseCase {
                                    int priority,
                                    int state){
 
-        TaskCard taskCard = taskCardList.get(idCard);
+
+
+        TaskCard taskCard = taskCardRepository.findByID(idCard).orElseThrow();
 
         String newTitle = identifyNewValue(tittle, taskCard.getTittle());
         String newDesctiption = identifyNewValue(description, taskCard.getDescription());
@@ -63,15 +60,13 @@ public class CardsUseCase {
                 .states(identifyState(newstate))
                 .build();
 
-        taskCardList.set(idCard, taskCardUpdated);
-        return taskCardList.get(idCard);
+        return taskCardRepository.save(taskCardUpdated);
     }
 
     public TaskCard deleteTaskCard(int idCard){
 
-        TaskCard taskCard = taskCardList.get(idCard);
-        taskCardList.set(idCard, taskCard.toBuilder().states(StatusCard.ERASED).build());
-        return taskCardList.get(idCard);
+        TaskCard taskCard = taskCardRepository.findByID(idCard).orElseThrow();
+        return taskCardRepository.save(taskCard.toBuilder().states(StatusCard.ERASED).build());
     }
 
     private String identifyNewValue(String paramValue, String cardValue) {
