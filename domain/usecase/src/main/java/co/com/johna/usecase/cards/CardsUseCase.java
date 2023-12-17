@@ -67,11 +67,7 @@ public class CardsUseCase {
         return taskCardList.set(idCard, taskCardUpdated);
     }
 
-    public TaskCard deleteTaskCard(int idCard,
-                                   String tittle,
-                                   String description,
-                                   int priority,
-                                   int state){
+    public TaskCard deleteTaskCard(int idCard){
 
         TaskCard taskCard = taskCardList.get(idCard);
         return taskCardList.set(idCard, taskCard.toBuilder().states(StatusCard.ERASED).build());
