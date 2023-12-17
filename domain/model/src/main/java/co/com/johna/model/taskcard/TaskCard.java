@@ -11,9 +11,9 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder(toBuilder = true)
 public class TaskCard {
-    private String id;
-    private String title;
+    private int id;
+    private String tittle;
     private String description;
-    private PriorityLevel priotyLevel;
+    private PriorityLevel priorityLevel;
     private StatusCard states;
 }
